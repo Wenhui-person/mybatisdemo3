@@ -21,19 +21,51 @@
     </select>
 
     <select id="queryUsers" resultType="Tbuser">
-        select * from tbuser order by userid desc
+        select * from tbuser
+        <where>
+            <if test="username!=null and username!=''">
+                and username like concat("%",#{username},"%")
+            </if>
+            <if test="userroles!=null and userroles!=''">
+                and userroles=#{userroles}
+            </if>
+        </where>
+        order by userid desc
     </select>
 
     <!--新增、删除不用加resultType-->
     <insert id="addUser" parameterType="Tbuser">
         insert into tbuser values(null,#{username},#{password},#{userroles},#{nickname},now())
     </insert>
+    <!--针对多项任意修改-->
     <update id="updateUser" parameterType="Tbuser">
-        update tbuser set username=#{username},password=#{password},userroles=#{userroles},
-        nickname=#{nickname} where userid=#{userid}
+        update tbuser
+        <set>
+            <if test="username!=null and username!=''">
+                username=#{username},
+            </if>
+            <if test="password!=null and password!=''">
+                password=#{password},
+            </if>
+            <if test="userroles!=null and userroles!=''">
+                userroles=#{userroles},
+            </if>
+            <if test="nickname!=null and nickname!=''">
+                nickname=#{nickname},
+            </if>
+        </set>
+        where userid=#{userid}
     </update>
     <delete id="deleteUser" parameterType="int">
         delete from tbuser where userid=#{userid}
+    </delete>
+
+    <!--注意foreach里面的各项配置-->
+    <delete id="deleteUsers" parameterType="int">
+        delete from tbuser where userid in 
+        <foreach collection="ids" item="id" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
     </delete>
 
     <!--不能配置paramterType属性-->

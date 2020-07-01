@@ -12,9 +12,6 @@ import org.junit.Test;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.PipedOutputStream;
-import java.io.PrintWriter;
-import java.time.chrono.ThaiBuddhistChronology;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -62,7 +59,10 @@ public class TestUser {
      }
      @Test
     public void testQueryUsers(){
-         List<Tbuser> tbusers=this.userMapper.queryUsers();
+         Tbuser tbuser=new Tbuser();
+         tbuser.setUsername("yang");
+         tbuser.setUserroles("02");
+         List<Tbuser> tbusers=this.userMapper.queryUsers(tbuser);
          tbusers.forEach(u->System.out.println(u));
      }
      private void print(int row){
@@ -80,7 +80,7 @@ public class TestUser {
      }
      @Test
      public void testUpdateUser(){
-         Tbuser tbuser=new Tbuser(13,"Unknow","77777","01","Unknow",null);
+         Tbuser tbuser=new Tbuser(13,"","1777","03",null,null);
          int row=this.userMapper.updateUser(tbuser);
          print(row);
      }
@@ -119,5 +119,11 @@ public class TestUser {
          Tbuser u=new Tbuser("admin","1234");
          Tbuser tbuser=this.userMapper.login4(u);
          System.out.println("tbuser = " + tbuser);
+     }
+     @Test
+    public void testDeleteUsers(){
+         int ids[]={16,17,18};
+         int row=this.userMapper.deleteUsers(ids);
+         this.print(row);
      }
 }

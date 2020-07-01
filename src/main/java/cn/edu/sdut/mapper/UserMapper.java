@@ -11,10 +11,12 @@ public interface UserMapper {
     int queryUserCount();
     Tbuser queryUserByusername(String username);
     Tbuser login(Tbuser tbuser);
-    List<Tbuser> queryUsers();
+    List<Tbuser> queryUsers(Tbuser tbuser);
     int addUser(Tbuser tbuser);
     int updateUser(Tbuser tbuser);
     int deleteUser(int userid);
+    //全选删除
+    int deleteUsers(@Param("ids") int ids[]);
 
     //多参数的解决方案
     //方案一
