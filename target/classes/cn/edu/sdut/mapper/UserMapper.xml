@@ -35,4 +35,27 @@
     <delete id="deleteUser" parameterType="int">
         delete from tbuser where userid=#{userid}
     </delete>
+
+    <!--不能配置paramterType属性-->
+    <select id="login1" resultType="Tbuser">
+        select * from tbuser where username=#{param1} and password=#{param2}
+    </select>
+
+    <select id="login2" resultType="Tbuser">
+        select * from tbuser where username=#{uname} and password=#{pwd}
+    </select>
+    <select id="login3" parameterType="Map" resultType="Tbuser">
+        select * from tbuser where username=#{uname} and password=#{pwd}
+    </select>
+    <!--#{}里要用@Param("内容")，如果是类的类型，需要对象名.属性名
+    -->
+    <select id="login4" parameterType="Tbuser" resultType="Tbuser">
+        select
+        <include refid="queryColumns"></include> 
+         from tbuser where username=#{user.username} and password=#{user.password}
+    </select>
+    <!--sql片段-->
+    <sql id="queryColumns">
+        userid,username,password,userroles,nickname,regtime
+    </sql>
 </mapper>

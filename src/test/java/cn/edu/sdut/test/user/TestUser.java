@@ -14,7 +14,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.PipedOutputStream;
 import java.io.PrintWriter;
+import java.time.chrono.ThaiBuddhistChronology;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class TestUser {
      private String mybatisconfig="mybatis.xml";
@@ -25,7 +28,7 @@ public class TestUser {
      @Before
     public void init() throws IOException {
          InputStream inputStream= Resources.getResourceAsStream(mybatisconfig);
-         this.sqlSessionFactory=new SqlSessionFactoryBuilder().build(inputStream);
+         sqlSessionFactory=new SqlSessionFactoryBuilder().build(inputStream);
          this.session=this.sqlSessionFactory.openSession();
          userMapper=session.getMapper(UserMapper.class);
      }
@@ -86,5 +89,35 @@ public class TestUser {
          int userid=15;
          int row=this.userMapper.deleteUser(userid);
          print(row);
+     }
+
+     @Test
+    public void testLogin1(){
+         String username="admin";
+         String pwd="1234";
+         Tbuser tbuser=this.userMapper.login1(username,pwd);
+         System.out.println("tbuser = " + tbuser);
+     }
+     @Test
+    public void testLogin2(){
+         String uname="admin";
+         String pwd="1234";
+         Tbuser tbuser=this.userMapper.login2(uname,pwd);
+         System.out.println("tbuser = " + tbuser);
+     }
+     @Test
+    public void testLogin3(){
+         String username="admin",password="1234";
+         Map<String,Object> map=new HashMap<>();
+         map.put("uname",username);
+         map.put("pwd",password);
+         Tbuser tbuser=this.userMapper.login3(map);
+         System.out.println("tbuser = " + tbuser);
+     }
+     @Test
+    public void testLogin4(){
+         Tbuser u=new Tbuser("admin","1234");
+         Tbuser tbuser=this.userMapper.login4(u);
+         System.out.println("tbuser = " + tbuser);
      }
 }
