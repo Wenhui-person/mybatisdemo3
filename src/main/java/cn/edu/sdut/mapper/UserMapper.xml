@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--namespace不能再乱写，必须要写mapper接口的完全限定名-->
+<mapper namespace="cn.edu.sdut.mapper.UserMapper">
+
+    <!--id 属性值必须要写UserMapper接口中的方法名
+    resultType不需要再写完全限定名，只需要写类的名字就行-->
+    <select id="queryUserById" parameterType="int" resultType="Tbuser">
+        select * from tbuser where userid=#{userid}
+    </select>
+    <select id="queryUserCount" resultType="int">
+        select count(*) from tbuser
+    </select>
+    <select id="queryUserByusername" parameterType="String" resultType="Tbuser">
+        select * from tbuser where username=#{username}
+    </select>
+    <select id="login" parameterType="Tbuser" resultType="Tbuser">
+        select * from tbuser where username=#{username} and password=#{password}
+    </select>
+
+    <select id="queryUsers" resultType="Tbuser">
+        select * from tbuser order by userid desc
+    </select>
+
+    <!--新增、删除不用加resultType-->
+    <insert id="addUser" parameterType="Tbuser">
+        insert into tbuser values(null,#{username},#{password},#{userroles},#{nickname},now())
+    </insert>
+    <update id="updateUser" parameterType="Tbuser">
+        update tbuser set username=#{username},password=#{password},userroles=#{userroles},
+        nickname=#{nickname} where userid=#{userid}
+    </update>
+    <delete id="deleteUser" parameterType="int">
+        delete from tbuser where userid=#{userid}
+    </delete>
+</mapper>

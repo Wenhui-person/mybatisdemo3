@@ -30,6 +30,6 @@
         <!--mybatis推荐我们把映射表的xml文件和Mapper接口放在一个包中
         <package name=""/>
         -->
-        <package name="n.edu.sdut.mapper"/>
+        <package name="cn.edu.sdut.mapper"/>
     </mappers>
 </configuration>
