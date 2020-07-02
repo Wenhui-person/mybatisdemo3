@@ -59,7 +59,8 @@
     <delete id="deleteUser" parameterType="int">
         delete from tbuser where userid=#{userid}
     </delete>
-    
+
+    <!--注意foreach里面的各项配置-->
     <delete id="deleteUsers" parameterType="int">
         delete from tbuser where userid in 
         <foreach collection="ids" item="id" open="(" close=")" separator=",">
